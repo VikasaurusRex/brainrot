@@ -1,0 +1,5 @@
+requests
+torch
+torchaudio
+chatterbox-tts
+openai-whisper
