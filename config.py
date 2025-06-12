@@ -4,8 +4,8 @@ TOPIC = "BRAT diet for recovering from diarrhea"
 ASSETS = Path("assets")
 OUTPUT = Path("output")
 CHARACTERS = {
-    "Peter": {"voice": ASSETS / "voices/peter_griffin.wav", "image": ASSETS / "images/Peter.png"},
-    "Stewie": {"voice": ASSETS / "voices/stewie_griffin.wav", "image": ASSETS / "images/Stewie.png"}
+    "Peter": {"voice": ASSETS / "voices/peter_griffin.wav",},
+    "Stewie": {"voice": ASSETS / "voices/stewie_griffin.wav",}
 }
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL = "deepseek-r1:32b"

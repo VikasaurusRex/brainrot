@@ -26,7 +26,7 @@ The directory structure has been updated to place all inputs within the `assets`
 |
 |-- /assets/
 |   |
-|   |-- /input_videos/            # <-- MOVED HERE
+|   |-- /background_videos/            # <-- MOVED HERE
 |   |   |-- minecraft_parkour_1.mp4
 |   |   |-- ...
 |   |
@@ -85,7 +85,7 @@ The configuration is updated with the new LLM model and simplified paths, as ful
 ```python
 # -- File Paths --
 ASSET_PATH = "assets/"
-INPUT_VIDEO_PATH = f"{ASSET_PATH}input_videos/"
+INPUT_VIDEO_PATH = f"{ASSET_PATH}background_videos/"
 VOICE_PATH = f"{ASSET_PATH}voices/"
 IMAGE_PATH = f"{ASSET_PATH}images/"
 FONT_PATH = f"{ASSET_PATH}fonts/"

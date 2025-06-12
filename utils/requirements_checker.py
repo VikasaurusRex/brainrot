@@ -29,7 +29,7 @@ def check_requirements():
             return False
         else:
             print(f"✅ {char} voice sample found")
-    if not any((ASSETS / "input_videos").glob("*.mp4")):
+    if not any((ASSETS / "background_videos").glob("*.mp4")):
         print("❌ No background videos found")
         return False
     else:

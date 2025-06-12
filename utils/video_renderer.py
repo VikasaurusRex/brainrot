@@ -6,7 +6,7 @@ from utils.audio_handler import get_audio_duration
 from config import ASSETS, WIDTH, HEIGHT, FONT_SIZE
 
 def render_video(audio_path, output_dir):
-    video_dir = ASSETS / "input_videos"
+    video_dir = ASSETS / "background_videos"
     bg_videos = [f for f in video_dir.glob("*.mp4")]
     if not bg_videos:
         print("❌ No background videos found")
