@@ -13,7 +13,7 @@ from pathlib import Path
 import ssl
 
 # Import modular pipeline components
-from utils.config import TOPIC, ASSETS, OUTPUT, CHARACTERS, OLLAMA_URL, MODEL, PROMPT, WIDTH, HEIGHT, FONT_SIZE
+from config import TOPIC, ASSETS, OUTPUT, CHARACTERS, OLLAMA_URL, MODEL, PROMPT, WIDTH, HEIGHT, FONT_SIZE
 from utils.llm_handler import generate_script
 from utils.tts_handler import setup_tts_model, synthesize_audio
 from utils.audio_handler import combine_audio, get_audio_duration

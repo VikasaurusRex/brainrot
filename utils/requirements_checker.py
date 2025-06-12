@@ -1,5 +1,5 @@
 import subprocess
-from utils.config import OLLAMA_URL, CHARACTERS, ASSETS
+from config import OLLAMA_URL, CHARACTERS, ASSETS
 
 def check_requirements():
     print("\n" + "=" * 50)

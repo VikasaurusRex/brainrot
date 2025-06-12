@@ -2,7 +2,7 @@ This spec is designed for maximum clarity to ensure a smooth implementation proc
 
 ### **1. Project Overview**
 
-The goal is to create a single Python script (`main.py`) that, when executed, automates the entire process of creating a short-form vertical video. The script will generate a dialogue, synthesize speech, select a background video, and render a final MP4 file with character sprites and animated subtitles, all using local tools. Each run will generate a unique, timestamped output folder to keep all related assets organized.
+The goal is to create a single Python script (`main.py`) that, when executed, automates the entire process of creating a layered short-form vertical video. The script will generate a dialogue, synthesize speech, select a background video, and render a final MP4 file with character sprites and animated subtitles, all using local tools. Each run will generate a unique, timestamped output folder to keep all related assets organized.
 
 ### **2. Core Technologies**
 

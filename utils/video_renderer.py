@@ -3,7 +3,7 @@ import time
 import subprocess
 from pathlib import Path
 from utils.audio_handler import get_audio_duration
-from utils.config import ASSETS, WIDTH, HEIGHT, FONT_SIZE
+from config import ASSETS, WIDTH, HEIGHT, FONT_SIZE
 
 def render_video(audio_path, output_dir):
     video_dir = ASSETS / "input_videos"

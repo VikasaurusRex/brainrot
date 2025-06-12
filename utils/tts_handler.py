@@ -2,7 +2,7 @@ import torch
 import torchaudio as ta
 from chatterbox.tts import ChatterboxTTS
 from pathlib import Path
-from utils.config import CHARACTERS
+from config import CHARACTERS
 
 def setup_tts_model():
     """Initialize ChatterboxTTS with CPU compatibility"""

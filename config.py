@@ -17,6 +17,9 @@ Create lines of dialogue where:
 - Peter responds with a witty comeback before pivoting smoothly into the topic
 - Stewie interjects occasionally with incorrect observations or tangential remarks
 - Peter responds with corrections and teaches Stewie correct information
+- Peter finishes with a call to action to share with a humourous twist
+
+Use simple, clear language suitable for a general audience!
 
 Format as JSON: {\"script\": [{\"actor\": \"Peter\", \"line\": \"text\"}, ...]}
 No other text, just the JSON."""
