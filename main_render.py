@@ -38,35 +38,12 @@ def main():
         return False
 
     # Create output directory
-    timestamp = time.strftime("%y_%m_%d_%H_%M")
+    timestamp = "25_06_12_18_31_example"  # time.strftime("%y_%m_%d_%H_%M")
+    
+    
     output_dir = OUTPUT / timestamp
     output_dir.mkdir(parents=True, exist_ok=True)
     print(f"📁 Output: {output_dir}")
-
-    # Generate script
-    script = generate_script(TOPIC)
-    if not script:
-        return False
-
-    # Save script
-    with open(output_dir / "script.json", 'w') as f:
-        json.dump({"script": script}, f, indent=2)
-
-    # Setup TTS
-    tts_model = setup_tts_model()
-    if not tts_model:
-        return False
-
-    # Generate audio
-    temp_audio_dir = output_dir / "temp_audio"
-    audio_files = synthesize_audio(script, tts_model, temp_audio_dir)
-    if not audio_files:
-        return False
-
-    # Combine audio
-    master_audio = output_dir / "master_audio.wav"
-    if not combine_audio(audio_files, master_audio):
-        return False
 
     # Load script from file
     script_file = output_dir / "script.json"
@@ -76,6 +53,8 @@ def main():
     with open(script_file, 'r', encoding='utf-8') as f:
         script_data = json.load(f)
         script = script_data["script"]
+
+    master_audio = output_dir / "master_audio.wav"
 
     # Create subtitles
     subtitle_result = create_simple_subtitles(master_audio, script, output_dir)

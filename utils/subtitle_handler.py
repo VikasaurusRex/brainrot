@@ -1,6 +1,7 @@
 import whisper
 from pathlib import Path
 from utils.ass_highlight import generate_ass_highlight
+from config import WORDS_PER_LINE
 
 def create_simple_subtitles(audio_path, script, output_dir):
     """Generate line-by-line and word-level subtitles with proper text escaping, and ASS highlight subtitles"""
@@ -27,7 +28,7 @@ def create_srt_file(segments, output_path):
                     if not isinstance(word_info, dict) or "word" not in word_info:
                         continue
                     current_words_in_line.append(word_info)
-                    if len(current_words_in_line) == 5 or i == len(segment["words"]) - 1:
+                    if len(current_words_in_line) == WORDS_PER_LINE or i == len(segment["words"]) - 1:
                         if not current_words_in_line:
                             continue
                         line_text = " ".join(w["word"].strip() for w in current_words_in_line if isinstance(w, dict) and "word" in w)
@@ -59,8 +60,8 @@ def create_srt_file(segments, output_path):
                     seg_duration = 0.2 * num_original_words
                     if seg_duration <= 0:
                         seg_duration = 0.5
-                for i in range(0, num_original_words, 5):
-                    chunk_words = words_in_original_text[i: i + 5]
+                for i in range(0, num_original_words, WORDS_PER_LINE):
+                    chunk_words = words_in_original_text[i: i + WORDS_PER_LINE]
                     if not chunk_words:
                         continue
                     line_text = " ".join(chunk_words)
