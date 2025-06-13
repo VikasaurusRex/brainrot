@@ -13,7 +13,7 @@ def escape_ass_text(text):
     # Escape curly braces and backslashes for ASS
     return text.replace('{', '\\{').replace('}', '\\}').replace('\\', '\\\\')
 
-def generate_ass_highlight(segments, output_path, font_name="Luckiest Guy", font_size=FONT_SIZE, outline=3):
+def generate_ass_highlight(segments, output_path, font_name="Luckiest Guy", font_size=FONT_SIZE, outline=6):
     """
     segments: list of dicts with keys: 'words' (list of dicts with 'word','start','end'), 'text', 'start', 'end'
     output_path: Path to write the .ass file
@@ -27,8 +27,8 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,{font_name},{font_size},{ASS_BASE_COLOR},{ASS_HIGHLIGHT_COLOR},&H00000000,&H00000000,1,0,0,0,100,100,0,0,1,{outline},0,2,60,60,1400,1
-Style: Highlight,{font_name},{font_size},{ASS_HIGHLIGHT_COLOR},{ASS_BASE_COLOR},&H00000000,&H00000000,1,0,0,0,100,100,0,0,1,{outline},0,2,60,60,1400,1
+Style: Default,{font_name},{font_size},{ASS_BASE_COLOR},{ASS_HIGHLIGHT_COLOR},&H00000000,&H80000000,1,0,0,0,100,100,0,0,3,{outline},2,2,60,60,1400,1
+Style: Highlight,{font_name},{font_size},{ASS_HIGHLIGHT_COLOR},{ASS_BASE_COLOR},&H00000000,&H80000000,1,0,0,0,100,100,0,0,3,{outline},2,2,60,60,1400,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text

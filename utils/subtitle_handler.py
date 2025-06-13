@@ -1,19 +1,117 @@
 import whisper
 from pathlib import Path
 from utils.ass_highlight import generate_ass_highlight
+from utils.audio_handler import get_audio_duration
 from config import WORDS_PER_LINE
 
 def create_simple_subtitles(audio_path, script, output_dir):
     """Generate line-by-line and word-level subtitles with proper text escaping, and ASS highlight subtitles"""
-    model = whisper.load_model("base")
-    result = model.transcribe(str(audio_path), word_timestamps=True)
-    subtitle_file = Path(output_dir) / "subtitles.srt"
-    word_subtitle_file = Path(output_dir) / "word_subtitles.srt"
-    ass_highlight_file = Path(output_dir) / "subtitles_highlight.ass"
-    create_srt_file(result["segments"], subtitle_file)
-    create_word_level_srt(result["segments"], word_subtitle_file)
-    create_ass_highlight_subtitles(result["segments"], ass_highlight_file)
+    # Use audio segment timing for accurate character attribution
+    temp_audio_dir = Path(output_dir) / "temp_audio"
+    if temp_audio_dir.exists():
+        segments = create_segments_from_audio_files(temp_audio_dir, script)
+        character_subtitle_file = Path(output_dir) / "character_subtitles.srt"
+        create_character_srt_from_segments(segments, character_subtitle_file)
+        
+        # Still use Whisper for word-level timing for subtitles
+        model = whisper.load_model("base")
+        result = model.transcribe(str(audio_path), word_timestamps=True)
+        subtitle_file = Path(output_dir) / "subtitles.srt"
+        word_subtitle_file = Path(output_dir) / "word_subtitles.srt"
+        ass_highlight_file = Path(output_dir) / "subtitles_highlight.ass"
+        create_srt_file(result["segments"], subtitle_file)
+        create_word_level_srt(result["segments"], word_subtitle_file)
+        create_ass_highlight_subtitles(result["segments"], ass_highlight_file)
+    else:
+        # Fallback to original method if temp audio files not found
+        model = whisper.load_model("base")
+        result = model.transcribe(str(audio_path), word_timestamps=True)
+        subtitle_file = Path(output_dir) / "subtitles.srt"
+        word_subtitle_file = Path(output_dir) / "word_subtitles.srt"
+        character_subtitle_file = Path(output_dir) / "character_subtitles.srt"
+        ass_highlight_file = Path(output_dir) / "subtitles_highlight.ass"
+        create_srt_file(result["segments"], subtitle_file)
+        create_word_level_srt(result["segments"], word_subtitle_file)
+        create_character_srt_file(result["segments"], script, character_subtitle_file)
+        create_ass_highlight_subtitles(result["segments"], ass_highlight_file)
     return True
+
+def create_segments_from_audio_files(temp_audio_dir, script):
+    """Create timing segments based on actual audio file durations"""
+    segments = []
+    current_time = 0.0
+    
+    # Get all audio files sorted by index
+    audio_files = sorted(temp_audio_dir.glob("*.wav"), key=lambda x: int(x.stem.split('_')[0]))
+    
+    for i, audio_file in enumerate(audio_files):
+        if i < len(script):
+            duration = get_audio_duration(audio_file)
+            if duration:
+                segments.append({
+                    'start': current_time,
+                    'end': current_time + duration,
+                    'character': script[i]['actor'],
+                    'text': script[i]['line']
+                })
+                current_time += duration
+            else:
+                print(f"⚠️ Could not get duration for {audio_file}, using fallback")
+                # Fallback duration based on text length
+                fallback_duration = max(2.0, len(script[i]['line']) * 0.1)
+                segments.append({
+                    'start': current_time,
+                    'end': current_time + fallback_duration,
+                    'character': script[i]['actor'],
+                    'text': script[i]['line']
+                })
+                current_time += fallback_duration
+    
+    return segments
+
+def create_character_srt_from_segments(segments, output_path):
+    """Create SRT file from audio segment timing"""
+    with open(output_path, 'w', encoding='utf-8') as f:
+        for i, segment in enumerate(segments, 1):
+            start_srt = format_srt_time(segment['start'])
+            end_srt = format_srt_time(segment['end'])
+            
+            f.write(f"{i}\n")
+            f.write(f"{start_srt} --> {end_srt}\n")
+            f.write(f"{segment['character']}\n\n")
+    
+    print(f"✅ Created character subtitles with {len(segments)} segments from audio timing")
+
+def create_character_srt_file(segments, script, output_path):
+    """Create SRT file that maps dialogue segments to characters using proper script order"""
+    with open(output_path, 'w', encoding='utf-8') as f:
+        subtitle_index = 1
+        script_index = 0
+        
+        for segment in segments:
+            if script_index >= len(script):
+                break
+                
+            # Get the current character from script in order
+            current_character = script[script_index]["actor"]
+            
+            # Get segment timing
+            start_time = segment.get("start", 0)
+            end_time = segment.get("end", start_time + 1)
+            
+            # Format times
+            start_srt = format_srt_time(start_time)
+            end_srt = format_srt_time(end_time)
+            
+            # Write character info as subtitle
+            f.write(f"{subtitle_index}\n")
+            f.write(f"{start_srt} --> {end_srt}\n")
+            f.write(f"{current_character}\n\n")
+            
+            subtitle_index += 1
+            script_index += 1
+            
+        print(f"✅ Created character subtitles with {subtitle_index-1} segments matching {len(script)} script lines")
 
 def create_ass_highlight_subtitles(segments, output_path):
     generate_ass_highlight(segments, output_path)
