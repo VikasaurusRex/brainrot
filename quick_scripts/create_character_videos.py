@@ -12,8 +12,8 @@ import time
 ASSETS = Path("assets")
 OUTPUT_DIR = ASSETS / "character_videos"
 CHARACTERS = {
-    "Peter": {"image": ASSETS / "images/Peter.png", "size": "200:200"},
-    "Stewie": {"image": ASSETS / "images/Stewie.png", "size": "180:180"}
+    "Peter": {"image": ASSETS / "images/Peter.png", "size": "523:800"},
+    "Stewie": {"image": ASSETS / "images/Stewie.png", "size": "581:720"}
 }
 
 # Video settings
@@ -74,8 +74,8 @@ def create_character_video(character_name, character_data, output_dir):
         '-loop', '1', '-i', str(image_path),
         '-filter_complex', 
         f'[1:v]scale={size}[scaled];'
-        f'[scaled]rotate={rotation}:ow=rotw(iw):oh=roth(ih):c=green[rotated];'
-        f'[0:v][rotated]overlay=x=(W-w)/2:y=(H-h)/2:shortest=1[final]',
+        f'[scaled]rotate={rotation}:ow=rotw(iw):oh=roth(ih):c=0x00FF00@0[rotated];'
+        f'[0:v][rotated]overlay=x=(W-w)/2:y=(H-h)/2:shortest=1:format=auto[final]',
         '-map', '[final]',
         '-c:v', 'libx264',
         '-pix_fmt', 'yuv420p',
@@ -121,11 +121,11 @@ def create_positioned_character_videos():
         
         # Position characters with actual pixel values
         if character_name == "Peter":
-            x_pos, y_pos = 50, HEIGHT - 250  # Bottom left (50px from left, 250px from bottom)
-            rotation = "0.435*sin(2*PI/2*t)"  # 5x stronger rocking
+            x_pos, y_pos = -50, HEIGHT - 830  # Bottom left (150px from left, 650px from bottom)
+            rotation = "0.05*sin(2*PI/2*t)"  # 2x less oscillation
         else:  # Stewie
-            x_pos, y_pos = WIDTH - 230, HEIGHT - 230  # Bottom right (230px from right edge, 230px from bottom)
-            rotation = "-0.435*sin(2*PI/2*t)"  # 5x stronger rocking
+            x_pos, y_pos = WIDTH - 630, HEIGHT - 830  # Bottom right (530px from right edge, 630px from bottom)
+            rotation = "-0.05*sin(2*PI/2*t)"  # 2x less oscillation
         
         output_path = output_dir / f"{character_name.lower()}_positioned.mp4"
         
@@ -136,8 +136,8 @@ def create_positioned_character_videos():
             '-loop', '1', '-i', str(image_path),
             '-filter_complex', 
             f'[1:v]scale={size}[scaled];'
-            f'[scaled]rotate={rotation}:ow=rotw(iw):oh=roth(ih):c=green[rotated];'
-            f'[0:v][rotated]overlay=x={x_pos}:y={y_pos}:shortest=1[final]',
+            f'[scaled]rotate={rotation}:ow=rotw(iw):oh=roth(ih):c=0x00FF00@0[rotated];'
+            f'[0:v][rotated]overlay=x={x_pos}:y={y_pos}:shortest=1:format=auto[final]',
             '-map', '[final]',
             '-c:v', 'libx264',
             '-pix_fmt', 'yuv420p',
