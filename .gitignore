@@ -126,4 +126,9 @@ dmypy.json
 assets/*/**
 !assets/*/
 
+!assets/voices/peter_griffin.wav
+!assets/voices/stewie_griffin.wav
+!assets/images/Peter.png
+!assets/images/Stewie.png
+
 output/
