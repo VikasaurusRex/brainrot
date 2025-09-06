@@ -1,6 +1,6 @@
 ### Quickstart
 
-This spec is designed for maximum clarity to ensure a smooth implementation process. The point is to create 
+This spec is designed for maximum clarity to ensure a smooth implementation process. The point is to create a rendering pipeline for minecraft parkour dialogue brainrot content in vertical video format.
 ```
 first download the code as a zip or git pull
 second use any video for your background it should go in /assets/background_videos/ (if multiple selects one randomly)
