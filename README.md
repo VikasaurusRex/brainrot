@@ -1,4 +1,13 @@
-This spec is designed for maximum clarity to ensure a smooth implementation process. Implement, but use the Brainrot notebook instead of a main. Please take your time to ensure everything is rigorously implemented and well connected.
+### Quickstart
+
+This spec is designed for maximum clarity to ensure a smooth implementation process. The point is to create 
+```
+first download the code as a zip or git pull
+second use any video for your background it should go in /assets/background_videos/ (if multiple selects one randomly)
+third change the topic list in main.py
+
+if any of this is confusing, download the code as a zip, open vscode and select the folder you downloaded, then use chatgpt to run this file it should explain it well given this file.
+```
 
 ### **1. Project Overview**
 
